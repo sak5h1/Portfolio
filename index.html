@@ -11,7 +11,16 @@
     <title>Sakshi Dhiman — Senior Software Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      try {
+        if (localStorage.getItem("portfolio-theme") === "dark") {
+          document.documentElement.dataset.theme = "dark";
+        }
+      } catch (error) {
+        console.warn("Could not restore the saved portfolio theme.", error);
+      }
+    </script>
     <link rel="stylesheet" href="styles.css">
     <script type="application/ld+json">
       {
@@ -33,11 +42,19 @@
   <body>
     <header class="site-header">
       <a class="wordmark" href="#home" aria-label="Sakshi Dhiman, home">SD<span>.</span></a>
-      <nav aria-label="Main navigation">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">
+        <span>Menu</span>
+        <span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
+      </button>
+      <nav id="main-navigation" aria-label="Main navigation">
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#work">Selected work</a>
         <a class="nav-contact" href="mailto:dhimansakshi000@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">◐</span>
+          <span class="theme-label">Dark mode</span>
+        </button>
       </nav>
     </header>
 
@@ -144,31 +161,31 @@
             <h3>Computershare GDS</h3>
             <p>Enterprise design system and reusable web and mobile component libraries, documented in Storybook.</p>
             <div class="tag-list"><span>React</span><span>React Native</span><span>TypeScript</span><span>Storybook</span><span>Chromatic</span></div>
-            <p class="project-detail">Delivered end to end—from component build and testing to CI/CD and production release. Translated Figma patterns into consistent components and used visual regression workflows to catch design drift.</p>
+            <details class="project-details"><summary>Read project story</summary><p>Delivered end to end—from component build and testing to CI/CD and production release. Translated Figma patterns into consistent components and used visual regression workflows to catch design drift.</p></details>
           </article>
           <article class="project-card">
             <div class="project-top"><span>02 / OPERATIONS</span><span class="project-arrow" aria-hidden="true">↗</span></div>
             <div class="project-visual visual-dashboard" aria-hidden="true"><div class="dash-sidebar"></div><div class="dash-content"><i></i><i></i><i></i><div class="dash-chart"></div></div></div>
             <h3>Executive O&amp;M Dashboard</h3>
             <p>Harris County Toll Road Authority · USA</p>
-            <p class="project-detail">Led end-to-end delivery as Team Lead and Full Stack Developer, managing scope and timelines while building front- and back-end solutions and streamlining database access.</p>
             <div class="tag-list"><span>Full Stack</span><span>Team Lead</span><span>Dashboard</span></div>
+            <details class="project-details"><summary>Read project story</summary><p>Led end-to-end delivery as Team Lead and Full Stack Developer, managing scope and timelines while building front- and back-end solutions and streamlining database access.</p></details>
           </article>
           <article class="project-card">
             <div class="project-top"><span>03 / FINANCIAL TOOLKIT</span><span class="project-arrow" aria-hidden="true">↗</span></div>
             <div class="project-visual visual-cloud" aria-hidden="true"><div class="cloud-shape"><span></span><span></span><span></span></div><div class="cloud-line"></div><div class="cloud-chip">FIN / OPS</div></div>
             <h3>FIN OPS · Cloud Pulse</h3>
             <p>Harris County Toll Road Authority</p>
-            <p class="project-detail">Designed a financial toolkit for data calculation and storage, integrating AWS services and import/export features with a focus on reliability and efficiency.</p>
             <div class="tag-list"><span>AWS</span><span>Data</span><span>Finance</span></div>
+            <details class="project-details"><summary>Read project story</summary><p>Designed a financial toolkit for data calculation and storage, integrating AWS services and import/export features with a focus on reliability and efficiency.</p></details>
           </article>
           <article class="project-card">
             <div class="project-top"><span>04 / WELLBEING</span><span class="project-arrow" aria-hidden="true">↗</span></div>
             <div class="project-visual visual-selfsea" aria-hidden="true"><div class="selfsea-sun"></div><div class="selfsea-wave wave-one"></div><div class="selfsea-wave wave-two"></div><span>SELFSEA</span></div>
             <h3>Selfsea Mobile App</h3>
             <p>Sidebench · USA</p>
-            <p class="project-detail">Led development of a mental health and social platform supporting people facing bullying. User research informed an accessible, user-centered experience.</p>
             <div class="tag-list"><span>React Native</span><span>Mobile</span><span>User Research</span></div>
+            <details class="project-details"><summary>Read project story</summary><p>Led development of a mental health and social platform supporting people facing bullying. User research informed an accessible, user-centered experience.</p></details>
           </article>
           <article class="project-card project-compact">
             <div class="project-top"><span>05 / MORE PROJECTS</span><span class="project-arrow" aria-hidden="true">↗</span></div>
@@ -222,5 +239,78 @@
       <p>Designed with care. Built for the web.</p>
       <span>© <span id="year">2026</span> SAKSHI DHIMAN</span>
     </footer>
+    <script>
+      const menuToggle = document.querySelector(".menu-toggle");
+      const mainNavigation = document.querySelector("#main-navigation");
+      const themeToggle = document.querySelector(".theme-toggle");
+      const themeLabel = themeToggle.querySelector(".theme-label");
+      const themeIcon = themeToggle.querySelector(".theme-icon");
+
+      function updateThemeControl() {
+        const isDark = document.documentElement.dataset.theme === "dark";
+        themeToggle.setAttribute("aria-pressed", String(isDark));
+        themeToggle.setAttribute("aria-label", `Switch to ${isDark ? "light" : "dark"} theme`);
+        themeLabel.textContent = isDark ? "Light mode" : "Dark mode";
+        themeIcon.textContent = isDark ? "☀" : "◐";
+      }
+
+      updateThemeControl();
+
+      themeToggle.addEventListener("click", () => {
+        const isDark = document.documentElement.dataset.theme !== "dark";
+        document.documentElement.dataset.theme = isDark ? "dark" : "light";
+        updateThemeControl();
+
+        try {
+          localStorage.setItem("portfolio-theme", isDark ? "dark" : "light");
+        } catch (error) {
+          console.warn("Could not save the portfolio theme preference.", error);
+        }
+      });
+
+      function closeMenu() {
+        menuToggle.setAttribute("aria-expanded", "false");
+        mainNavigation.classList.remove("is-open");
+      }
+
+      menuToggle.addEventListener("click", () => {
+        const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+        menuToggle.setAttribute("aria-expanded", String(!isOpen));
+        mainNavigation.classList.toggle("is-open", !isOpen);
+      });
+
+      mainNavigation.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", closeMenu);
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeMenu();
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!menuToggle.contains(event.target) && !mainNavigation.contains(event.target)) {
+          closeMenu();
+        }
+      });
+
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+        const revealTargets = document.querySelectorAll(
+          ".hero-copy, .hero-art, .scroll-cue, .section-heading, .intro-content, .timeline-item, .project-card, .toolkit-group, .education-item, .contact-section > *"
+        );
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: "0px 0px -36px 0px" });
+
+        revealTargets.forEach((target) => {
+          target.classList.add("reveal");
+          revealObserver.observe(target);
+        });
+      }
+    </script>
   </body>
 </html>
